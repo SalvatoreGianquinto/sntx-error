@@ -14,7 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="it">
-      <body className={`${jetBrainsMono.className} antialiased`}>
+      <body
+        suppressHydrationWarning
+        className={`${jetBrainsMono.className} antialiased`}
+      >
         {children}
       </body>
     </html>
