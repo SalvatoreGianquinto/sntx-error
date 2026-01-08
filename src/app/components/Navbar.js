@@ -2,22 +2,24 @@
 
 import Link from "next/link"
 import Logo from "./Logo"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useCartStore } from "../store/useCartStore"
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
 
+  const cartCount = useCartStore((state) => state.cart.length)
+  const setIsCartOpen = useCartStore((state) => state.setIsCartOpen)
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5">
       <div className="flex justify-between items-center p-8 md:px-12">
-        {/* LOGO */}
         <div className="z-50">
           <Link href="/">
             <Logo />
           </Link>
         </div>
 
-        {/* DESKTOP MENU */}
         <div className="hidden lg:flex items-center gap-12 font-mono">
           <ul className="flex gap-10 text-[11px] tracking-[0.3em] uppercase">
             <li className="hover:text-[#CCFF00] transition-all">
@@ -50,19 +52,27 @@ export default function NavBar() {
                 Register
               </Link>
             </div>
-            <button className="bg-white text-black px-5 py-2 font-black uppercase tracking-tighter hover:bg-[#CCFF00] transition-all flex items-center gap-3">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="bg-white text-black px-5 py-2 font-black uppercase tracking-tighter hover:bg-[#CCFF00] transition-all flex items-center gap-3 group"
+            >
               Cart{" "}
-              <span className="bg-black text-white px-1.5 py-0.5 text-[8px]">
-                0
+              <span
+                suppressHydrationWarning
+                className="bg-black text-white px-1.5 py-0.5 text-[8px]"
+              >
+                {cartCount}
               </span>
             </button>
           </div>
         </div>
 
-        {/* MOBILE TRIGGER (Hamburger) - AGGIUNTO QUESTO */}
         <div className="lg:hidden flex items-center gap-6 z-50">
-          <button className="bg-white text-black px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter">
-            Cart(0)
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="bg-white text-black px-3 py-1.5 text-[10px] font-black uppercase tracking-tighter hover:bg-[#CCFF00] transition-colors"
+          >
+            Cart(<span suppressHydrationWarning>{cartCount}</span>)
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -87,7 +97,6 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* MENU MOBILE OVERLAY */}
       <div
         className={`fixed inset-0 bg-black z-40 flex flex-col p-8 transition-all duration-500 ease-in-out ${
           isOpen
