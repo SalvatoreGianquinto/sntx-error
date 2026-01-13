@@ -16,8 +16,8 @@ export default function LoginPage() {
 
         <div className="flex flex-col items-center mb-10">
           <Logo />
-          <span className="text-[#CCFF00] tracking-[0.3em] uppercase mt-4">
-            [Authentication_Required]
+          <span className="text-[10px] text-[#CCFF00] tracking-[0.3em] uppercase mt-4">
+            [ Authentication_Required ]
           </span>
         </div>
 
